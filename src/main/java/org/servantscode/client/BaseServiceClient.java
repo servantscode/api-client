@@ -1,6 +1,11 @@
 package org.servantscode.client;
 
+import org.apache.logging.log4j.ThreadContext;
 import org.servantscode.commons.client.AbstractServiceClient;
+import org.servantscode.commons.security.OrganizationContext;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.servantscode.commons.StringUtils.isEmpty;
 
@@ -24,5 +29,13 @@ public class BaseServiceClient extends AbstractServiceClient {
             token = ApiClientFactory.instance().getToken();
 
         return "Bearer " + token;
+    }
+
+    @Override
+    public Map<String, String> getAdditionalHeaders() {
+        HashMap<String, String> headers = new HashMap<>(4);
+        headers.put("x-sc-org", OrganizationContext.getOrganization().getHostName());
+        headers.put("x-sc-transaction-id", ThreadContext.get("transaction.id"));
+        return headers;
     }
 }
