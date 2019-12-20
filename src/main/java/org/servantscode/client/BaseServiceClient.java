@@ -1,6 +1,7 @@
 package org.servantscode.client;
 
 import org.apache.logging.log4j.ThreadContext;
+import org.servantscode.commons.Organization;
 import org.servantscode.commons.client.AbstractServiceClient;
 import org.servantscode.commons.security.OrganizationContext;
 
@@ -34,7 +35,9 @@ public class BaseServiceClient extends AbstractServiceClient {
     @Override
     public Map<String, String> getAdditionalHeaders() {
         HashMap<String, String> headers = new HashMap<>(4);
-        headers.put("x-sc-org", OrganizationContext.getOrganization().getHostName());
+        Organization org = OrganizationContext.getOrganization();
+        if(org != null)
+            headers.put("x-sc-org", OrganizationContext.getOrganization().getHostName());
         headers.put("x-sc-transaction-id", ThreadContext.get("transaction.id"));
         return headers;
     }

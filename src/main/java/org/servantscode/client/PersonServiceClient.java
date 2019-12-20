@@ -69,6 +69,19 @@ public class PersonServiceClient extends BaseServiceClient {
         }
     }
 
+    public Map<String, Object> getPersonById(int id) {
+        Response response = get("/" + id);
+
+        if(response.getStatus() == 200) {
+            Map<String, Object> person = response.readEntity(new GenericType<Map<String, Object>>(){});
+            System.out.println("Got person: " + person.get("name"));
+            return person;
+        } else {
+            System.err.println("Failed to get person. Status: " + response.getStatus());
+            throw new RuntimeException("Could not get the person you wanted.");
+        }
+    }
+
     public int getPersonId(String name) {
         if(idCache.get(name) != null)
             return idCache.get(name);

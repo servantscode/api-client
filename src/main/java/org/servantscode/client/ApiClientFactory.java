@@ -21,6 +21,7 @@ public class ApiClientFactory {
 
     static {
         DIRECTORY = new HashMap<>();
+        DIRECTORY.put("/rest/person", "http://person-svc:8080/rest/person");
         DIRECTORY.put("/rest/family", "http://person-svc:8080/rest/family");
         DIRECTORY.put("/rest/parish", "http://parish-svc:8080/rest/parish");
 //        DIRECTORY.put("/rest/email", "http://email-svc:8080/rest/email");
