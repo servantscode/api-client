@@ -71,12 +71,15 @@ public class FamilyServiceClient extends BaseServiceClient {
             return idCache.get(name);
 
         Map<String, Object> params = new HashMap<>(8);
-        params.put("count", 1);
+        params.put("count", 0);
         params.put("search", name);
+        params.put("include_inactive", true);
 
         Response response = get(params);
-        Map<String, Object> resp = response.readEntity(new GenericType<Map<String, Object>>(){});
+        if(response.getStatus() != 200)
+            return 0;
 
+        Map<String, Object> resp = response.readEntity(new GenericType<Map<String, Object>>(){});
         List<Map<String, Object>> results = (List<Map<String, Object>>) resp.get("results");
         if(envelopeNumber > 0)
             results = results.stream().filter(r -> r.get("envelopeNumber").equals(envelopeNumber)).collect(Collectors.toList());

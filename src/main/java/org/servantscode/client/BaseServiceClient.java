@@ -9,13 +9,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.servantscode.commons.StringUtils.isEmpty;
+import static org.servantscode.commons.StringUtils.isSet;
 
 public class BaseServiceClient extends AbstractServiceClient {
 
-    private String token = null;
+    private static String token = null;
 
     /*package*/ BaseServiceClient(String service) {
         super(ApiClientFactory.instance().urlFor(service));
+    }
+
+    public static void login(String email, String password) {
+        token = ApiClientFactory.instance().login(email, password);
     }
 
     @Override
@@ -25,11 +30,11 @@ public class BaseServiceClient extends AbstractServiceClient {
 
     @Override
     public String getAuthorization() {
-        //If not logged in use default development credentials
-        if(isEmpty(token))
-            token = ApiClientFactory.instance().getToken();
+        if (isSet(token))
+            return "Bearer " + token;
 
-        return "Bearer " + token;
+        //If not already logged in get token from the ClientFactory
+        return "Bearer " + ApiClientFactory.instance().getToken();
     }
 
     @Override

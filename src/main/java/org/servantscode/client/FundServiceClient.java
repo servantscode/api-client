@@ -2,12 +2,14 @@ package org.servantscode.client;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class FundServiceClient extends BaseServiceClient {
 
-    //public DonationServiceClient() { super("http://donation-svc:8080/rest/donation"); }
     public FundServiceClient() { super("/rest/fund"); }
 
     public Map<String, Object> createFund(Map<String, Object> data) {
@@ -19,5 +21,20 @@ public class FundServiceClient extends BaseServiceClient {
             System.err.println("Failed to create fund. Status: " + response.getStatus());
 
         return response.readEntity(new GenericType<Map<String, Object>>(){});
+    }
+
+    public int getFundId(String fundName) {
+        Map<String, Object> params = new HashMap<>(8);
+        params.put("search", fundName);
+
+        Response response = get(params);
+        if(response.getStatus() != 200)
+            throw new RuntimeException("Could not query for fund by name.");
+
+        Map<String, Object> resp = response.readEntity(new GenericType<Map<String, Object>>(){});
+        List<Map<String, Object>> results = (List<Map<String, Object>>) resp.get("results");
+        results = results.stream().filter(r -> r.get("name").equals(fundName)).collect(Collectors.toList());
+
+        return results.isEmpty()? 0: (int)results.get(0).get("id");
     }
 }
