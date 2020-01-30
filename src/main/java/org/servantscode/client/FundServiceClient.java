@@ -29,7 +29,7 @@ public class FundServiceClient extends BaseServiceClient {
 
         Response response = get(params);
         if(response.getStatus() != 200)
-            throw new RuntimeException("Could not query for fund by name.");
+            throw new RuntimeException("Could not query for fund by name: " + fundName);
 
         Map<String, Object> resp = response.readEntity(new GenericType<Map<String, Object>>(){});
         List<Map<String, Object>> results = (List<Map<String, Object>>) resp.get("results");
