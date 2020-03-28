@@ -5,11 +5,11 @@ import javax.ws.rs.core.Response;
 import java.util.Map;
 
 
-public class SectionServiceClient extends BaseServiceClient {
+public class ClassroomServiceClient extends BaseServiceClient {
 
-    public SectionServiceClient(int id) { super(String.format("/rest/program/%d/section", id)); }
+    public ClassroomServiceClient(int id) { super(String.format("/rest/program/%d/classroom", id)); }
 
-    public Map<String, Object> createSection(Map<String, Object> data) {
+    public Map<String, Object> createClassroom(Map<String, Object> data) {
         Response response = post(data);
 
         if(response.getStatus() == 200)

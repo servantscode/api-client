@@ -9,8 +9,8 @@ public class AttendanceServiceClient extends BaseServiceClient {
 
     public AttendanceServiceClient(int programId) { super(String.format("/rest/program/%d", programId)); }
 
-    public Map<String, Object> recordAttendance(Map<String, Object> data, int sectionId) {
-        Response response = put(String.format("section/%d/attendance", sectionId), data);
+    public Map<String, Object> recordAttendance(Map<String, Object> data, int classroomId) {
+        Response response = put(String.format("classroom/%d/attendance", classroomId), data);
 
         if(response.getStatus() == 200)
             System.out.println("Attendance recorded");
