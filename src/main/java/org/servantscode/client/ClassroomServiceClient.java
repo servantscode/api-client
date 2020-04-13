@@ -7,7 +7,9 @@ import java.util.Map;
 
 public class ClassroomServiceClient extends BaseServiceClient {
 
-    public ClassroomServiceClient(int id) { super(String.format("/rest/program/%d/classroom", id)); }
+    public ClassroomServiceClient(int programId, int sectionId) {
+        super(String.format("/rest/program/%d/section/%d/classroom", programId, sectionId));
+    }
 
     public Map<String, Object> createClassroom(Map<String, Object> data) {
         Response response = post(data);

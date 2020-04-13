@@ -14,7 +14,9 @@ import java.util.stream.Collectors;
 
 public class SessionServiceClient extends BaseServiceClient {
 
-    public SessionServiceClient(int id) { super(String.format("/rest/program/%d/session", id)); }
+    public SessionServiceClient(int programId, int sectionId) {
+        super(String.format("/rest/program/%d/section/%d/session", programId, sectionId));
+    }
 
     public Map<String, Object> createSession(Map<String, Object> data) {
         Response response = post(data);
